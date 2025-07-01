@@ -193,18 +193,13 @@ const MediaModal = ({
         <ReactPlayer
           style={style.video}
           ref={playerRef}
-          src={getBuldreinfoMediaUrlSupported(m.id)}
+          url={getBuldreinfoMediaUrlSupported(m.id)} // Note: prop is "url", not "src"
           controls={true}
           playing={true}
-          onProgress={() => {
+          onReady={() => {
             const seconds = parseInt(m.t);
-            if (
-              !Number.isNaN(seconds) &&
-              Number.isFinite(seconds) &&
-              playerRef.current &&
-              seconds < playerRef.current.duration
-            ) {
-              playerRef.current.currentTime = seconds;
+            if (!Number.isNaN(seconds) && Number.isFinite(seconds)) {
+              playerRef.current?.seekTo(seconds, "seconds");
             }
           }}
         />
